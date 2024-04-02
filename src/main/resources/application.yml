@@ -1,0 +1,98 @@
+# Spring配置
+spring:
+  profiles:
+    active: dev
+  # 资源信息
+  messages:
+    # 有些版本的 IDEA  会自动设置properties的编码为IOS-8859-1 请在IDEA配置里设置成UTF8
+    encoding: UTF-8
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 10MB
+      # 设置总上传的文件大小
+      max-request-size: 20MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+    serialization:
+      write-dates-as-timestamps: false
+    date-format: yyyy-MM-dd HH:mm:ss
+
+
+# 基础公用的配置参数放置在这份yml中
+# 项目相关配置
+agileboot:
+  # 名称
+  name: AgileBoot
+  # 版本
+  version: 1.0.0
+  # 版权年份
+  copyright-year: 2024
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: math
+  traceRequestIdKey: AG-RequestId
+
+
+# 日志配置
+logging:
+  level:
+    # 记得配置到包名
+    com.github: debug
+    org.springframework: info
+  pattern:
+    console: "%date requestId:%X{${agileboot.traceRequestIdKey}} %thread %green(%level) [%cyan(%logger{10}):%magenta(%line)] %red(%method) | %msg%n"
+
+
+# token配置
+token:
+  # 令牌密钥
+  secret: sdhfkjshBN6rr32df38fuga7iufhsj21dhcjkluioe4fjksdhciuawiefoi
+  # 时间
+  ttl: 6000
+
+
+# MyBatis配置
+mybatis-plus:
+  # 搜索指定包别名 使用简短的类型名称来代替完整的类型名称
+  #    typeAliasesPackage: com.github.orm.*
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath*:mapper/*Mapper.xml
+  # 加载全局的配置文件
+  configuration:
+    cacheEnabled: true
+    useGeneratedKeys: true
+    defaultExecutorType: SIMPLE
+    logImpl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    refresh: true
+
+
+# PageHelper分页插件
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
+  params: count=countSql
+
+knife4j:
+  enable: true
+  documents:
+    - group: Test Group
+      name: My Documents
+      locations: classpath:wiki/*
+  setting:
+    language: zh_cn
+    # footer
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: MIT | [Java 全栈](https://pdai.tech)
+    # header
+    enableHomeCustom: true
+    homeCustomLocation: classpath:wiki/README.md
+    # models
+    enableSwaggerModels: true
+    swaggerModelName: My Models
